@@ -1,0 +1,9 @@
+name = "cloudflare-worker-loki"
+main = "src/index.js"
+account_id = ""
+workers_dev = true
+usage_model = "unbound"
+compatibility_date = "2022-08-01"
+
+[vars]
+lokiHost = "https://logs-prod-us-central1.grafana.net/loki/api/v1/push"
