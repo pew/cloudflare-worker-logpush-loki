@@ -58,6 +58,7 @@ export default {
   async fetch(request, env) {
     const { searchParams } = new URL(request.url)
     let job = searchParams.get('job')
+    console.log(`job name: ${job}`)
 
     const authHeader = request.headers.get('authorization')
     const contentEncoding = request.headers.get('content-encoding')
