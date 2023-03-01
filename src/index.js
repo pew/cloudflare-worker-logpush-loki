@@ -28,7 +28,12 @@ async function transformLogs(obj) {
     log = logdata.split('\n')
   } else {
     let date = new Date().getTime() * 1000000
-    log = await payload.json()
+    if (obj.contentType.includes('application/json')) {
+      log = await payload.json()
+    }
+    if (obj.contentType.includes('application/text')) {
+      log = await payload.text()
+    }
     lokiFormat.streams[0].values.push([date.toString(), JSON.stringify(log)])
     return lokiFormat
   }
@@ -61,6 +66,7 @@ export default {
 
     const authHeader = request.headers.get('authorization')
     const contentEncoding = request.headers.get('content-encoding')
+    const contentType = request.headers.get('content-type')
 
     if (request.method !== 'POST') {
       return new Response(
@@ -79,7 +85,7 @@ export default {
         ),
       )
     }
-    const output = await transformLogs({ payload: await request, contentEncoding, job })
+    const output = await transformLogs({ payload: await request, contentEncoding, job, contentType })
 
     await pushLogs(output, authHeader, env)
     return new Response(JSON.stringify({ success: true }), {
