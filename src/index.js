@@ -1,11 +1,11 @@
 import { inflate } from 'pako'
 
 async function transformLogs(obj) {
-  let encoding = obj.contentEncoding || undefined
+  const encoding = obj.contentEncoding || undefined
   let payload = obj.payload
-  let jobname = obj.job || 'cloudflare_logpush'
+  const jobname = obj.job || 'cloudflare_logpush'
 
-  let lokiFormat = {
+  const lokiFormat = {
     streams: [
       {
         stream: {
@@ -21,13 +21,11 @@ async function transformLogs(obj) {
   if (encoding === 'gzip') {
     payload = await payload.arrayBuffer()
 
-    let data = inflate(payload)
-    let logdata = new Uint16Array(data).reduce(function (data, byte) {
-      return data + String.fromCharCode(byte)
-    }, '')
+    const data = inflate(payload)
+    const logdata = new Uint16Array(data).reduce((data, byte) => data + String.fromCharCode(byte), '')
     log = logdata.split('\n')
   } else {
-    let date = new Date().getTime() * 1000000
+    const date = new Date().getTime() * 1000000
     if (obj.contentType.includes('application/json')) {
       log = await payload.json()
     }
@@ -39,7 +37,7 @@ async function transformLogs(obj) {
   }
 
   log.forEach((element) => {
-    let date = element.EdgeStartTimestamp || new Date().getTime() * 1000000
+    const date = element.EdgeStartTimestamp || new Date().getTime() * 1000000
     lokiFormat.streams[0].values.push([date.toString(), element])
   })
 
@@ -47,8 +45,8 @@ async function transformLogs(obj) {
 }
 
 async function pushLogs(payload, credentials, env) {
-  let lokiServer = env.lokiHost
-  let req = await fetch(lokiServer, {
+  const lokiServer = env.lokiHost
+  const req = await fetch(lokiServer, {
     body: JSON.stringify(payload),
     method: 'POST',
     headers: {
@@ -62,7 +60,7 @@ async function pushLogs(payload, credentials, env) {
 export default {
   async fetch(request, env) {
     const { searchParams } = new URL(request.url)
-    let job = searchParams.get('job')
+    const job = searchParams.get('job')
 
     const authHeader = request.headers.get('authorization')
     const contentEncoding = request.headers.get('content-encoding')

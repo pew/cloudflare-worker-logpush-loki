@@ -129,4 +129,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 dashboard.json
-wrangler.super_org.toml

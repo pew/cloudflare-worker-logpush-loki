@@ -1,5 +1,7 @@
 # Logpush to Grafana Loki Endpoint
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/pew/cloudflare-worker-logpush-loki)
+
 - [Logpush to Grafana Loki Endpoint](#logpush-to-grafana-loki-endpoint)
   - [Create the Worker](#create-the-worker)
   - [Logpush](#logpush)
@@ -19,17 +21,19 @@ This Worker takes the incoming Logpush JSON Format and transforms it into someth
 ## Create the Worker
 
 - clone this repo
-- update `wrangler.toml` to point to your Grafana Loki HTTP Endpoint
-- feel free to make other adjustments in `wrangler.toml` to your liking
+- update `wrangler.jsonc` to point to your Grafana Loki HTTP Endpoint
+- feel free to make other adjustments in `wrangler.jsonc` to your liking
 - deploy the worker:
 
 ```shell
-npm run publish
+npm run deploy
 ```
 
 Note down the returned URL to create the actual logpush job.
 
 ## Logpush
+
+- You can configure Cloudflare Logpush through the Dashboard or API.
 
 ### Get Log Fields
 

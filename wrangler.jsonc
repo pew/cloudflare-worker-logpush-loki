@@ -1,0 +1,12 @@
+{
+  "compatibility_date": "2025-05-09",
+  "main": "src/index.js",
+  "name": "cloudflare-worker-loki",
+  "workers_dev": true,
+  "observability": {
+    "enabled": true,
+  },
+  "vars": {
+    "lokiHost": "https://logs-prod-us-central1.grafana.net/loki/api/v1/push",
+  },
+}
