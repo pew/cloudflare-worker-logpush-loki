@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "prettier": "^3.5.3",
-    "wrangler": "4.14.4"
+    "wrangler": "4.59.1"
   },
   "private": true,
   "scripts": {
